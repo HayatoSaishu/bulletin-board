@@ -34,6 +34,6 @@ public class UserController {
 		
 		userService.signUp(user);
 		
-		return "
+		return "redirect:/user";
 	}
 }
