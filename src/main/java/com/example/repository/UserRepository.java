@@ -7,18 +7,17 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.User;
 
 @Repository
-@Transactional
 public class UserRepository {
 
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 	
 	private static final RowMapper<User>USER_ROW_MAPPER = (rs, i) ->{
+		
 		User user = new User();
 		user.setId(rs.getInt("id"));
 		user.setName(rs.getString("name"));
