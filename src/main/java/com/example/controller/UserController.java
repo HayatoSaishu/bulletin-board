@@ -3,7 +3,6 @@ package com.example.controller;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -46,7 +45,7 @@ public class UserController {
 	}
 	
 	@RequestMapping("/login")
-	public  String login(LoginForm form, Model model, RedirectAttributes redirectAttributes) {
+	public  String login(LoginForm form, RedirectAttributes redirectAttributes) {
 		User user = userService.login(form.getMailAddress(), form.getPassword());
 		if(user == null) {
 			return toLogin();
