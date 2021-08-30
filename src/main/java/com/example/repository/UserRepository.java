@@ -15,32 +15,50 @@ public class UserRepository {
 
 	@Autowired
 	private NamedParameterJdbcTemplate template;
-	
-	private static final RowMapper<User>USER_ROW_MAPPER = (rs, i) ->{
-		
+
+	private static final RowMapper<User> USER_ROW_MAPPER = (rs, i) -> {
+
 		User user = new User();
 		user.setId(rs.getInt("id"));
 		user.setName(rs.getString("name"));
 		user.setMailAddress(rs.getString("mail_address"));
 		user.setPassword(rs.getString("password"));
-		
+
 		return user;
 	};
-	
-	public void signUp (User user) {
+
+	/**
+	 * ユーザー登録をする.
+	 * 
+	 * @param user ユーザー
+	 */
+	public void signUp(User user) {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(user);
-		
-		String  sql = "INSERT INTO users(name, mail_address, password) VALUES(:name, :mailAddress, :password);";
-		
+
+		String sql = "INSERT INTO users(name, mail_address, password) VALUES(:name, :mailAddress, :password);";
+
 		template.update(sql, param);
 	}
-	
+
+	/**
+	 * ユーザー情報を1件取得する.
+	 * 
+	 * @param id ユーザーID
+	 * @return ユーザー情報
+	 */
 	public User load(Integer id) {
-		
+
 		String sql = "SELECT id, name, mail_address, password FROM users WHERE id=:id;";
-		
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		User user = template.queryForObject(sql, param, USER_ROW_MAPPER);
+
+		return user;
+	}
+
+	public User findByMailAddressAndPassword(String mailAddress, String password) {
 		
+		String sql = "SELECT mail_address, password FROM users WHERE mail_address=:mailAddress AND password=:password;";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("mailAddress", mailAddress).addValue("password", password);
 		User user = template.queryForObject(sql, param, USER_ROW_MAPPER);
 		
 		return user;
