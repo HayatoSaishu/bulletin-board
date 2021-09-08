@@ -23,6 +23,8 @@ public class UserRepository {
 		user.setName(rs.getString("name"));
 		user.setMailAddress(rs.getString("mail_address"));
 		user.setPassword(rs.getString("password"));
+		user.setArticleId(rs.getInt("article_id"));
+		user.setCommentId(rs.getInt("comment_id"));
 
 		return user;
 	};

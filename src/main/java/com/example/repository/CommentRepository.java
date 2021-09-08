@@ -13,19 +13,18 @@ import org.springframework.stereotype.Repository;
 import com.example.domain.Comment;
 
 @Repository
-public class PostRepository {
+public class CommentRepository {
 
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 	
 	private static final RowMapper<Comment> POST_ROW_MAPPER = (rs, i) ->{
-		Comment post = new Comment();
-		post.setId(rs.getInt("id"));
-		post.setComment(rs.getString("comment"));
-		post.setImage(rs.getString("image"));
-		post.setGroupId(rs.getInt("group_id"));
+		Comment comment = new Comment();
+		comment.setId(rs.getInt("id"));
+		comment.setContent(rs.getString("content"));
+		comment.setArticleId(rs.getInt("article_id"));
 		
-		return post;
+		return comment;
 	};
 	
 	public void posting(Comment post) {
