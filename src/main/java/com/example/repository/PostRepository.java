@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import com.example.domain.Post;
+import com.example.domain.Comment;
 
 @Repository
 public class PostRepository {
@@ -18,8 +18,8 @@ public class PostRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 	
-	private static final RowMapper<Post> POST_ROW_MAPPER = (rs, i) ->{
-		Post post = new Post();
+	private static final RowMapper<Comment> POST_ROW_MAPPER = (rs, i) ->{
+		Comment post = new Comment();
 		post.setId(rs.getInt("id"));
 		post.setComment(rs.getString("comment"));
 		post.setImage(rs.getString("image"));
@@ -28,7 +28,7 @@ public class PostRepository {
 		return post;
 	};
 	
-	public void posting(Post post) {
+	public void posting(Comment post) {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(post);
 		
 		String sql = "INSERT INTO posts(comment, image, group_id) VALUES(:comment, :image, :groupId);";
@@ -36,12 +36,12 @@ public class PostRepository {
 		template.update(sql, param);
 	}
 	
-	public List<Post> findByGroupId(String groupId){
+	public List<Comment> findByGroupId(String groupId){
 		String sql = "SELECT comment, image, group_id FROM posts WHERE group_id=:groupId ORDER BY id;";
 		
 		SqlParameterSource param = new MapSqlParameterSource().addValue("groupId", groupId);
 		
-		List<Post> postList = template.query(sql, param, POST_ROW_MAPPER);
+		List<Comment> postList = template.query(sql, param, POST_ROW_MAPPER);
 		
 		return postList;
 	}
