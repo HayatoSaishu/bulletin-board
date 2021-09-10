@@ -13,11 +13,11 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	public void signUp(User user) {
 		userRepository.signUp(user);
 	}
-	
+
 	public User login(String mailAddress, String password) {
 		User user = userRepository.findByMailAddressAndPassword(mailAddress, password);
 		return user;

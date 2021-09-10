@@ -65,4 +65,12 @@ public class UserRepository {
 		
 		return user;
 	}
+
+	public User findByMailAddress(String mailAddress){
+		String sql = "SELECT mail_address, password FROM users WHERE mail_address=:mailAddress;";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("mailAddress", mailAddress);
+		User user = template.queryForObject(sql, param, USER_ROW_MAPPER);
+		
+		return user;
+	}
 }

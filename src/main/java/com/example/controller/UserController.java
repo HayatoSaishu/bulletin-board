@@ -37,11 +37,6 @@ public class UserController {
 		return "redirect:/user/toLogin";
 	}
 	
-	@RequestMapping("toLogin")
-	public String toLogin() {
-		return "user/login";
-	}
-	
 	
 	@RequestMapping("/showUser")
 	public String showUser() {
