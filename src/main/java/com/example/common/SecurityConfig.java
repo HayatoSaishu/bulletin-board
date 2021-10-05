@@ -28,20 +28,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/user/toLogin").permitAll()
+			.antMatchers("/login/toLogin").permitAll()
 			.anyRequest().authenticated();
 		
 		http.formLogin()
-			.loginPage("/user/toLogin")
+			.loginPage("/login/toLogin")
 			.loginProcessingUrl("/login")
 			.defaultSuccessUrl("/user/showUser", true)
-			.failureUrl("/user/toLogin?error=true")
+			.failureUrl("/login/toLogin?error=true")
 			.usernameParameter("mailAddres")
 			.passwordParameter("password");
 		
 		http.logout()
 		.logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))
-		.logoutSuccessUrl("/user/toLogin")
+		.logoutSuccessUrl("/login/toLogin")
 		.deleteCookies("JSESSIONID")
 		.invalidateHttpSession(false);
 	}

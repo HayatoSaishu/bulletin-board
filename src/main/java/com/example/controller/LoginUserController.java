@@ -5,6 +5,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * ユーザーのログイン処理をするコントローラ.
+ * 
+ * @author hayato.saishu
+ *
+ */
 @Controller
 @RequestMapping("/login")
 public class LoginUserController {
