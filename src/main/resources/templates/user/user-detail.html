@@ -3,18 +3,22 @@
 		xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/user-detail.css">
 <meta charset="UTF-8">
 <title>ユーザーページ</title>
 </head>
 <body>
 <div class="container">
 	<div class="row">
-		<div class="col-md-8 col-md-offset-1">
+		<div class="text-center col-8 mx-auto mt-3">
+			<div th:if="${updateMessage}" class="alert alert-success">
+				<p th:text="${updateMessage}" class="text-center"></p>
+			</div>
 			<h1>ユーザーページ</h1>
 			<h2>名前</h2>
 				<p th:text="${user.name}"></p><br>
 			<h2>自己紹介</h2>
-				<p th:text="${user.profile}"></p><br>
+				<pre th:text="${user.profile}"></pre><br>
 			<form th:action="@{/user/to-update}" method="post">
 				<button name="id" th:value="${user.id}" class="btn btn-primary">プロフィール編集</button>
 			</form>

@@ -14,7 +14,7 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -26,16 +26,18 @@ public class UserService {
 	public User login(String mailAddress, String password) {
 		return userRepository.findByMailAddressAndPassword(mailAddress, password);
 	}
-	
+
 	public User findByMailAddress(String mailAddress) {
 		return userRepository.findByMailAddress(mailAddress);
 	}
-	
+
 	public void updateProfile(Integer id, String name, String profile) {
 		User user = userRepository.load(id);
 		user.setName(name);
-		user.setProfile(profile);
-		
+		if (profile.length() != 0) {
+			user.setProfile(profile);
+		}
+
 		userRepository.updateProfile(user);
 	}
 }

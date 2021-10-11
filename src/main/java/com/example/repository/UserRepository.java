@@ -28,6 +28,7 @@ public class UserRepository {
 		user.setPassword(rs.getString("password"));
 		user.setArticleId(rs.getInt("article_id"));
 		user.setCommentId(rs.getInt("comment_id"));
+		user.setProfile(rs.getString("profile"));
 
 		return user;
 	};
@@ -53,7 +54,7 @@ public class UserRepository {
 	 */
 	public User load(Integer id) {
 
-		String sql = "SELECT id, name, mail_address, password, article_id, comment_id FROM users WHERE id=:id;";
+		String sql = "SELECT id, name, mail_address, password, article_id, comment_id, profile FROM users WHERE id=:id;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		User user = template.queryForObject(sql, param, USER_ROW_MAPPER);
 
@@ -69,7 +70,7 @@ public class UserRepository {
 	 */
 	public User findByMailAddressAndPassword(String mailAddress, String password) {
 
-		String sql = "SELECT mail_address, password FROM users WHERE mail_address=:mailAddress AND password=:password;";
+		String sql = "SELECT id, name, mail_address, password, article_id, comment_id, profile FROM users WHERE mail_address=:mailAddress AND password=:password;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("mailAddress", mailAddress).addValue("password",
 				password);
 		List<User> userList = template.query(sql, param, USER_ROW_MAPPER);

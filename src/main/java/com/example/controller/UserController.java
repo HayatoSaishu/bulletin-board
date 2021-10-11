@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.domain.LoginUser;
 import com.example.domain.User;
@@ -60,9 +61,10 @@ public class UserController {
 	 * @return
 	 */
 	public String showUser(Model model, @AuthenticationPrincipal LoginUser loginUser) {
-		User user = loginUser.getUser();
+		User user = userRepository.load(loginUser.getUser().getId());
 
 		model.addAttribute("user", user);
+		System.out.println(user);
 		return "user/user-detail";
 	}
 	
@@ -88,8 +90,9 @@ public class UserController {
 	 * @param profile　プロフィール
 	 */
 	@RequestMapping("/update")
-	public String updateProfile(Model model, Integer id, String name, String profile) {
+	public String updateProfile(RedirectAttributes redirectAttributes, Integer id, String name, String profile) {
 		userService.updateProfile(id, name, profile);
+		redirectAttributes.addFlashAttribute("updateMessage", "プロフィールを更新しました");
 		
 		return "redirect:/user/showUser";
 	}

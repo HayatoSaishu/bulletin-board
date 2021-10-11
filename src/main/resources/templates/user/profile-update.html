@@ -2,15 +2,28 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org"
 		xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
+<link rel="stylesheet" href="/css/bootstrap.css">
 <meta charset="UTF-8">
 <title>プロフィール編集</title>
 </head>
 <body>
-<form th:action="@{/user/update}" method="post">
-	<input type="hidden" name="id" th:value="${user.id}">
-	名前: <input type="text" name="name" th:value="${user.name}" class="form-control"><br>
-	プロフィール: <textarea name="profile" class="form-control"></textarea><br>
-	<button class="btn btn-primary">プロフィールを更新する</button>
-</form>
+<div class="container">
+	<div class="row">
+		<div class="col-7 mt-3">
+			<form th:action="@{/user/update}" method="post" class="form-group">
+				<input type="hidden" name="id" th:value="${user.id}">
+				名前
+				<input type="text" name="name" th:value="${user.name}" class="form-control"><br>
+				プロフィール<br> 
+				<textarea cols="50" rows="5" name="profile" class="form-control"></textarea><br>
+				プロフィール画像
+				<input type="file" class="form-control"><br>
+				<div class="d-grid gap-2 col-6 mx-auto">
+					<button class="btn btn-primary btn-block">プロフィールを更新する</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 </body>
 </html>
