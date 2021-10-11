@@ -32,11 +32,23 @@ public class UserController {
 		return new SignUpUserForm();
 	}
 
+	/**
+	 * ユーザー登録ページを表示.
+	 * 
+	 * @return ユーザー登録ページ	
+	 */
 	@RequestMapping("")
 	public String index() {
 		return "user/sign-up";
 	}
 
+	/**
+	 * ユーザーを登録する.
+	 * 
+	 * @param form フォーム
+	 * @param bindingResult 入力値エラーを表示
+	 * @return ログインページに遷移
+	 */
 	@RequestMapping("/sign-up")
 	public String signUp(@Validated SignUpUserForm form, BindingResult bindingResult) {
 //		User user = userService.findByMailAddress(form.getMailAddress());
@@ -47,7 +59,6 @@ public class UserController {
 		User user = new User();
 		
 		BeanUtils.copyProperties(form, user);
-		System.out.println(user);
 		userService.signUp(user);
 		return "redirect:/user/toLogin";
 	}
