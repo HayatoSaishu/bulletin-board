@@ -5,12 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.LoginUser;
 import com.example.domain.User;
 import com.example.form.SignUpUserForm;
+import com.example.repository.UserRepository;
 import com.example.service.UserService;
 
 @Controller
@@ -20,40 +23,75 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private UserRepository userRepository;
+
 	@ModelAttribute
 	public SignUpUserForm setUpSignUpUserForm() {
 		return new SignUpUserForm();
 	}
-	
+
 	@RequestMapping("")
 	public String index() {
 		return "user/sign-up";
 	}
-	
+
 	@RequestMapping("/sign-up")
-	public String signUp(SignUpUserForm form) {
+	public String signUp(@Validated SignUpUserForm form, BindingResult bindingResult) {
+//		User user = userService.findByMailAddress(form.getMailAddress());
+//		if (user != null) {
+//			bindingResult.rejectValue("mailAddress", "", "メールアドレスが既に登録されています");
+//			return "redirect:/user";
+//		}
 		User user = new User();
+		
 		BeanUtils.copyProperties(form, user);
-		
+		System.out.println(user);
 		userService.signUp(user);
-		
 		return "redirect:/user/toLogin";
 	}
-	
-	
+
 	@RequestMapping("/showUser")
 	/**
 	 * ユーザー情報ページを表示する.
 	 * 
-	 * @param model モデル
-	 * @param loginUser　ログインユーザー情報
+	 * @param model     モデル
+	 * @param loginUser ログインユーザー情報
 	 * @return
 	 */
 	public String showUser(Model model, @AuthenticationPrincipal LoginUser loginUser) {
 		User user = loginUser.getUser();
 
 		model.addAttribute("user", user);
-		return "user-detail";
+		return "user/user-detail";
 	}
 	
+	/**
+	 * プロフィール更新ページを表示.
+	 * 
+	 * @param model　モデル
+	 * @param id　ID
+	 * @return プロフィール更新ページ
+	 */
+	@RequestMapping("/to-update")
+	public String toUpdateProfile(Model model, Integer id) {
+		User user = userRepository.load(id);
+		model.addAttribute("user", user);
+		return "user/profile-update";
+	}
+	
+	/**
+	 * プロフィールを更新する.
+	 * 
+	 * @param id ID
+	 * @param name 名前
+	 * @param profile　プロフィール
+	 */
+	@RequestMapping("/update")
+	public String updateProfile(Model model, Integer id, String name, String profile) {
+		userService.updateProfile(id, name, profile);
+		
+		return "redirect:/user/showUser";
+	}
+
 }

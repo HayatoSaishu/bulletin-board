@@ -13,15 +13,15 @@
 			<div id="form">
 				<form th:action="@{/user/sign-up}" th:object="${signUpUserForm}"
 					method="post">
-					ユーザー名: 
-					<input type="text" name="name" class="form-control"
-						placeholder="名前"><br> 
+					ユーザー名:
+					 <input type="text" name="name" class="form-control"
+						 placeholder="名前"><br> 
 					メールアドレス: 
-					<input type="text"
-						name="mailAddress" class="form-control" placeholder="メールアドレス"><br>
-					パスワード:
-					 <input type="password" name="password" class="form-control"
-						placeholder="パスワード"><br>
+					<input type="text" name="mailAddress" class="form-control"
+						 placeholder="メールアドレス"><br>
+					パスワード: 
+					<input type="password" name="password"
+						 class="form-control" placeholder="パスワード"><br>
 					<div class="d-grid gap-2">
 						<button type="submit" class="btn btn-primary btn-block">登録</button>
 					</div>

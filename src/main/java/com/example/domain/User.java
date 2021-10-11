@@ -33,21 +33,10 @@ public class User {
 	 */
 	private Integer commentId;
 
-	public User() {
-	}
-
-	public User(Integer id, String name, String mailAddress, String password, Integer articleId, Integer commentId) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.mailAddress = mailAddress;
-		this.password = password;
-		this.articleId = articleId;
-		this.commentId = commentId;
-	}
-
-
-
+	/**
+	 * プロフィール
+	 */
+	private String profile;
 
 	public Integer getId() {
 		return id;
@@ -81,12 +70,6 @@ public class User {
 		this.password = password;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", mailAddress=" + mailAddress + ", password=" + password
-				+ ", articleId=" + articleId + ", commentId=" + commentId + "]";
-	}
-
 	public Integer getArticleId() {
 		return articleId;
 	}
@@ -102,4 +85,19 @@ public class User {
 	public void setCommentId(Integer commentId) {
 		this.commentId = commentId;
 	}
+
+	public String getProfile() {
+		return profile;
+	}
+
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", mailAddress=" + mailAddress + ", password=" + password
+				+ ", articleId=" + articleId + ", commentId=" + commentId + ", profile=" + profile + "]";
+	}
+
 }

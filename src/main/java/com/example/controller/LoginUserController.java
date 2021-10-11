@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/login")
 public class LoginUserController {
 
-    @RequestMapping("/toLogin")
-	public String toLogin(Model model, @RequestParam(required = false) String error)  {
-		if(error != null){
+	@RequestMapping("/toLogin")
+	public String toLogin(Model model, @RequestParam(required = false) String error) {
+		if (error != null) {
 			System.err.println("login failed");
 			model.addAttribute("errorMessage", "メールアドレスまたはパスワード違います");
 		}

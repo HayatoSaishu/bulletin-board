@@ -2,7 +2,7 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org"
 		xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-<link rel="stylesheet" href="/bulletin-board/src/main/resources/static/css/user.css">
+<link rel="stylesheet" href="/css/user.css">
 <link rel="stylesheet" href="/css/bootstrap.css">
 <meta charset="UTF-8">
 <title>ログインページ</title>
@@ -11,12 +11,13 @@
 	<div class="row">
 		<div class="offset-3 col-6 offset-3 mt-3">
 			<h2>ログイン</h2>
+			<div class="alert alert-danger" th:if="${errorMessage}">
+				<p class="text-center" th:text="${errorMessage}">メールアドレスまたはパスワードが間違っています</p>
+			</div>
 			<div id="form">
 				<form th:action="@{/login}" method="post">
-					メールアドレス: 
-					<input type="text" name="mailAddress" class="form-control" placeholder="メールアドレス"><br> 
-					パスワード: 
-					<input type="password" name="password" class="form-control" placeholder="パスワード"><br>
+					メールアドレス: <input type="text" name="mailAddress" class="form-control" placeholder="メールアドレス"><br> 
+					パスワード: <input type="password" name="password" class="form-control" placeholder="パスワード"><br>
 					<div class="d-grid gap-2">
 						<button type="submit" class="btn btn-primary btn-block">ログイン</button>
 					</div>

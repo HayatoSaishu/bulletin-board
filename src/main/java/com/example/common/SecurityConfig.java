@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/login/toLogin").permitAll()
+			.antMatchers("/login/toLogin",  "/user", "/user/sign-up").permitAll()
 			.anyRequest().authenticated();
 		
 		http.formLogin()
@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.loginProcessingUrl("/login")
 			.defaultSuccessUrl("/user/showUser", true)
 			.failureUrl("/login/toLogin?error=true")
-			.usernameParameter("mailAddres")
+			.usernameParameter("mailAddress")
 			.passwordParameter("password");
 		
 		http.logout()

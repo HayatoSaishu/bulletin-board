@@ -38,5 +38,4 @@ public class LoginForm {
 		return "LoginForm [mailAddress=" + mailAddress + ", password=" + password + "]";
 	}
 
-
 }

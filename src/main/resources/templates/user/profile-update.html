@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>プロフィール編集</title>
+</head>
+<body>
+<form th:action="@{/user/update}" method="post">
+	<input type="hidden" name="id" th:value="${user.id}">
+	名前: <input type="text" name="name" th:value="${user.name}" class="form-control"><br>
+	プロフィール: <textarea name="profile" class="form-control"></textarea><br>
+	<button class="btn btn-primary">プロフィールを更新する</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<link rel="stylesheet" href="/css/bootstrap.css">
+<meta charset="UTF-8">
+<title>ユーザーページ</title>
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-1">
+			<h1>ユーザーページ</h1>
+			<h2>名前</h2>
+				<p th:text="${user.name}"></p><br>
+			<h2>自己紹介</h2>
+				<p th:text="${user.profile}"></p><br>
+			<form th:action="@{/user/to-update}" method="post">
+				<button name="id" th:value="${user.id}" class="btn btn-primary">プロフィール編集</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>
