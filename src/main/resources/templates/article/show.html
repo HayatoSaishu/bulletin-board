@@ -64,7 +64,7 @@
 				</tr>
 				<tr th:each="article:${articleList}">
 					<td>
-						<a href="#"><span th:text="${article.name}"></span></a>
+						<a th:href="@{/comment/show?id=} + ${article.id}"><span th:text="${article.name}"></span></a>
 					</td>
 					<td>
 						<p th:text="${article.content}"></p>

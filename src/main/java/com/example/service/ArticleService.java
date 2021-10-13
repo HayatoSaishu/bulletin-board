@@ -34,6 +34,12 @@ public class ArticleService {
 		return articleList;
 	}
 
+	/**
+	 * 名前検索でスレッド情報を取得する.
+	 * 
+	 * @param name スレッド名
+	 * @return　スレッドリスト
+	 */
 	public List<Article> searchByNameLike(String name) {
 		List<Article> articleList = new ArrayList<>();
 		if (name.length() == 0) {
@@ -43,6 +49,16 @@ public class ArticleService {
 		}
 
 		return articleList;
+	}
+	
+	/**
+	 * スレッド情報を1件取得する.
+	 * 
+	 * @param id ID
+	 * @return スレッド情報
+	 */
+	public Article load(Integer id) {
+		return articleRepository.load(id);
 	}
 
 	/**

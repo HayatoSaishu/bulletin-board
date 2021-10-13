@@ -17,31 +17,46 @@ public class CommentRepository {
 
 	@Autowired
 	private NamedParameterJdbcTemplate template;
-	
-	private static final RowMapper<Comment> POST_ROW_MAPPER = (rs, i) ->{
+
+	private static final RowMapper<Comment> COMMENT_ROW_MAPPER = (rs, i) -> {
 		Comment comment = new Comment();
 		comment.setId(rs.getInt("id"));
 		comment.setContent(rs.getString("content"));
 		comment.setArticleId(rs.getInt("article_id"));
-		
+		comment.setUserName(rs.getString("user_name"));
+
 		return comment;
 	};
-	
-	public void posting(Comment post) {
-		SqlParameterSource param = new BeanPropertySqlParameterSource(post);
-		
-		String sql = "INSERT INTO posts(comment, image, group_id) VALUES(:comment, :image, :groupId);";
-		
+
+	/**
+	 * コメントを投稿する/
+	 * 
+	 * @param comment コメント
+	 */
+	public void insert(Comment comment) {
+		SqlParameterSource param = new BeanPropertySqlParameterSource(comment);
+
+		String sql = "INSERT INTO comments(content, article_id, user_name) VALUES(:content, :articleId, :userName);";
+
 		template.update(sql, param);
 	}
-	
-	public List<Comment> findByGroupId(String groupId){
-		String sql = "SELECT comment, image, group_id FROM posts WHERE group_id=:groupId ORDER BY id;";
-		
-		SqlParameterSource param = new MapSqlParameterSource().addValue("groupId", groupId);
-		
-		List<Comment> postList = template.query(sql, param, POST_ROW_MAPPER);
-		
-		return postList;
+
+	/**
+	 * コメントをスレッドIDから取得する.
+	 * 
+	 * @param articleId スレッドID
+	 * @return コメントリスト
+	 */
+	public List<Comment> findByArticleId(Integer articleId) {
+		String sql = "SELECT id, content, article_id, user_name FROM comments WHERE article_id=:articleId ORDER BY id DESC;";
+
+		SqlParameterSource param = new MapSqlParameterSource().addValue("articleId", articleId);
+
+		List<Comment> commentList = template.query(sql, param, COMMENT_ROW_MAPPER);
+		if (commentList.size() == 0) {
+			return null;
+		}
+
+		return commentList;
 	}
 }

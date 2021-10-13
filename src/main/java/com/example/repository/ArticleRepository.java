@@ -74,4 +74,14 @@ public class ArticleRepository {
 
 		return articleList;
 	}
+	
+	public Article load(Integer id) {
+		String sql = "SELECT id, name, content FROM articles WHERE id=:id";
+		
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		
+		Article article = template.queryForObject(sql, param, ARTICLE_ROW_MAPPER);
+		
+		return article;
+	}
 }
