@@ -20,6 +20,10 @@ public class Comment {
 	 * 投稿された掲示板のスレッドID
 	 */
 	private Integer articleId;
+	/**
+	 * コメント投稿者の名前
+	 */
+	private String userName;
 
 	public Integer getId() {
 		return id;
@@ -43,5 +47,19 @@ public class Comment {
 
 	public void setArticleId(Integer articleId) {
 		this.articleId = articleId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	@Override
+	public String toString() {
+		return "Comment [id=" + id + ", content=" + content + ", articleId=" + articleId + ", userName=" + userName
+				+ "]";
 	}
 }

@@ -2,10 +2,10 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org"
 		xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
+<link rel="stylesheet" href="/css/article.css">
 <link rel="stylesheet" href="/css/bootstrap.css">
-<link rel="stylesheet" href="/css/user-detail.css">
 <meta charset="UTF-8">
-<title>ユーザーページ</title>
+<title>スレッド一覧</title>
 </head>
 <body>
 <header class="mb-4">
@@ -40,31 +40,40 @@
 	</header>
 <div class="container">
 	<div class="row">
-		<div class="text-center col-10 mx-auto mt-2">
-			<div th:if="${updateMessage}" class="alert alert-success">
-				<p th:text="${updateMessage}" class="text-center"></p>
-			</div>
-			<h1>ユーザーページ</h1>
-			<div class="col-6 me-auto mt-3">
-				<table class="table table-striped table-bordered">
-					<tr class="fs-3">
-						<th>名前</th>
-						<td th:text="${user.name}"></td>
-					</tr>
-					<tr class="fs-4">
-						<th>プロフィール</th>
-						<td th:text="${user.profile}"></td>
-					</tr>
-				</table>
-				<form th:action="@{/user/to-update}" method="post">
-					<div class="d-grid gap-2">
-						<button name="id" th:value="${user.id}" class="btn btn-primary">プロフィール編集</button>
+		<div class="col-9 mx-auto">
+			<h1 class="text-center mx-auto">スレッド一覧</h1>
+			
+			<div class="d-flex flex-row">
+				<a class="col-4 me-auto text-center btn btn-dark" th:href="@{/article/create-page}">スレッド作成</a>
+				<form class="form-group form-inline col-4" method="post" th:action="@{/article/search-name}">
+					<div class="input-group">
+						<input type="text" name="name" class="form-control" placeholder="スレッド名">
+						<span class="input-group-btn ms-2">
+							<button class="btn btn-secondary" type="submit">検索</button>
+						</span>
 					</div>
 				</form>
 			</div>
+			<div th:if="${noNameMessage}" class="alert alert-danger text-center mt-3">
+				<p th:text="${noNameMessage}"></p>
+			</div>
+			<table class="table table-striped table-bordered mt-3 fs-4">
+				<tr>
+					<th>スレッド名</th>
+					<th>スレッド内容</th>
+				</tr>
+				<tr th:each="article:${articleList}">
+					<td>
+						<a href="#"><span th:text="${article.name}"></span></a>
+					</td>
+					<td>
+						<p th:text="${article.content}"></p>
+					</td>
+				</tr>
+			</table>
 		</div>
+		
 	</div>
 </div>
-
 </body>
 </html>

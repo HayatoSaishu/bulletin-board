@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<link rel="stylesheet" href="/css/article.css">
+<link rel="stylesheet" href="/css/bootstrap.css">
+<meta charset="UTF-8">
+<title>スレッド作成</title>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-8 text-center mt-3 mx-auto">
+				<h1>スレッド作成</h1>
+			</div>
+			<div class="col-8 mx-auto">
+				<form class="form-group" method="post"
+					th:action="@{/article/create}" th:object="${articleForm}">
+					<div class="alert alert-danger text-center" th:if="${#fields.hasErrors('name')}" 
+							th:errors="*{name}"></div>
+					<p class="text-center">スレッド名</p>
+					<input class="form-control" type="text" name="name"
+						th:field="*{name}" placeholder="スレッド名"><br> 
+					<div class="alert alert-danger text-center" th:if="${#fields.hasErrors('content')}" 
+							th:errors="*{content}"></div>
+					<p class="text-center">スレッド内容</p>
+					<textarea class="form-control" rows="3" cols="30" name="content"
+						th:field="*{content}" placeholder="例:フレンド募集など"></textarea><br>
+					<div class="d-grid gap-2">
+						<button class="btn btn-primary" type="submit">作成</button>					
+					</div> 
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

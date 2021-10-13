@@ -22,6 +22,11 @@ public class Article {
 	 * グループ概要
 	 */
 	private String content;
+	
+	/**
+	 * スレッド作成者の名前
+	 */
+	private String userName;
 
 	/**
 	 * コメントリスト
@@ -62,7 +67,16 @@ public class Article {
 
 	@Override
 	public String toString() {
-		return "Article [id=" + id + ", name=" + name + ", content=" + content + ", commentList=" + commentList + "]";
+		return "Article [id=" + id + ", name=" + name + ", content=" + content + ", userName=" + userName
+				+ ", commentList=" + commentList + "]";
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 }

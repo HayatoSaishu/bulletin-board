@@ -75,7 +75,6 @@ public class UserController {
 		User user = userRepository.load(loginUser.getUser().getId());
 
 		model.addAttribute("user", user);
-		System.out.println(user);
 		return "user/user-detail";
 	}
 	
