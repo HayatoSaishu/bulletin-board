@@ -17,13 +17,15 @@
 			</div>
 			<div th:each="comment:${commentList}">
 				投稿者
-				<span th:text="${comment.userName}"></span><br>
+				<a th:href="@{/user/showUser?id=} + ${comment.user.id}"><span th:text="${comment.user.name}"></span></a><br>
 				<span th:text="${comment.content}"></span>
 			</div>
 			<form th:action="@{/comment/post}" method="post" class="form-group" th:object="${commentForm}">
+				<div class="alert alert-danger text-center" th:if="${#fields.hasErrors('content')}" 
+							th:errors="*{content}"></div>
 				<textarea rows="3" cols="40" name="content" class="form-control" placeholder="投稿内容"></textarea>
 				<input type="hidden" name="articleId" th:value="${article.id}">
-				<input type="hidden" name="userName" th:value="${loginUserName}">
+				<input type="hidden" name="userId" th:value="${loginUser.id}">
 				<div class="d-grid gap-2 col-6 mx-auto mt-3">
 					<button class="btn btn-success" type="submit">投稿する</button>
 				</div>

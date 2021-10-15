@@ -35,7 +35,7 @@ public class CommentController {
 
 	@RequestMapping("/post")
 	public String postComment(@Validated CommentForm form, Model model, BindingResult result,
-								@AuthenticationPrincipal LoginUser loginUser) {
+			@AuthenticationPrincipal LoginUser loginUser) {
 		if (result.hasErrors()) {
 			return toComment(String.valueOf(form.getArticleId()), model, loginUser);
 		}
@@ -43,11 +43,11 @@ public class CommentController {
 		Comment comment = new Comment();
 		comment.setContent(form.getContent());
 		comment.setArticleId(form.getArticleId());
-		comment.setUserName(form.getUserName());
+		comment.setUserId(form.getUserId());
 
 		commentService.postComment(comment);
 
-		return "redirect:/comment/show";
+		return toComment(String.valueOf(form.getArticleId()), model, loginUser);
 	}
 
 	@RequestMapping("/show")
@@ -56,7 +56,7 @@ public class CommentController {
 		List<Comment> commentList = commentService.seachByArticleId(articleId);
 		Article article = articleService.load(articleId);
 		model.addAttribute("article", article);
-		model.addAttribute("loginUserName", loginUser.getUser().getName());
+		model.addAttribute("loginUser", loginUser.getUser());
 
 		if (commentList == null) {
 			model.addAttribute("blankMessage", "投稿がまだありません");

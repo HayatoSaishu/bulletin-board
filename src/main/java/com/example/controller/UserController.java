@@ -17,13 +17,19 @@ import com.example.form.SignUpUserForm;
 import com.example.repository.UserRepository;
 import com.example.service.UserService;
 
+/**
+ * ユーザー情報を操作するコントローラ.
+ * 
+ * @author hayato.saishu
+ *
+ */
 @Controller
 @RequestMapping("/user")
 public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private UserRepository userRepository;
 
@@ -35,7 +41,7 @@ public class UserController {
 	/**
 	 * ユーザー登録ページを表示.
 	 * 
-	 * @return ユーザー登録ページ	
+	 * @return ユーザー登録ページ
 	 */
 	@RequestMapping("")
 	public String index() {
@@ -45,7 +51,7 @@ public class UserController {
 	/**
 	 * ユーザーを登録する.
 	 * 
-	 * @param form フォーム
+	 * @param form          フォーム
 	 * @param bindingResult 入力値エラーを表示
 	 * @return ログインページに遷移
 	 */
@@ -57,32 +63,51 @@ public class UserController {
 //			return "redirect:/user";
 //		}
 		User user = new User();
-		
+
 		BeanUtils.copyProperties(form, user);
 		userService.signUp(user);
 		return "redirect:/user/toLogin";
 	}
 
-	@RequestMapping("/showUser")
+	@RequestMapping("/showLoginUser")
 	/**
-	 * ユーザー情報ページを表示する.
+	 * ログインユーザー情報ページを表示する.
 	 * 
 	 * @param model     モデル
 	 * @param loginUser ログインユーザー情報
 	 * @return
 	 */
-	public String showUser(Model model, @AuthenticationPrincipal LoginUser loginUser) {
+	public String showLoginUser(Model model, @AuthenticationPrincipal LoginUser loginUser) {
 		User user = userRepository.load(loginUser.getUser().getId());
 
 		model.addAttribute("user", user);
+		model.addAttribute("displayButton", "");
 		return "user/user-detail";
 	}
-	
+
+	/**
+	 * ユーザー情報を表示する.
+	 * 
+	 * @param model モデル
+	 * @param id    ID
+	 * @return ユーザー情報
+	 */
+	@RequestMapping("/showUser")
+	public String showUser(Model model, Integer id, @AuthenticationPrincipal LoginUser loginUser) {
+		User user = userRepository.load(id);
+
+		model.addAttribute("user", user);
+		if (user.getId() == loginUser.getUser().getId()) {
+			model.addAttribute("displayButton", "");
+		}
+		return "user/user-detail";
+	}
+
 	/**
 	 * プロフィール更新ページを表示.
 	 * 
-	 * @param model　モデル
-	 * @param id　ID
+	 * @param model モデル
+	 * @param id    ID
 	 * @return プロフィール更新ページ
 	 */
 	@RequestMapping("/to-update")
@@ -91,19 +116,19 @@ public class UserController {
 		model.addAttribute("user", user);
 		return "user/profile-update";
 	}
-	
+
 	/**
 	 * プロフィールを更新する.
 	 * 
-	 * @param id ID
-	 * @param name 名前
-	 * @param profile　プロフィール
+	 * @param id      ID
+	 * @param name    名前
+	 * @param profile プロフィール
 	 */
 	@RequestMapping("/update")
 	public String updateProfile(RedirectAttributes redirectAttributes, Integer id, String name, String profile) {
 		userService.updateProfile(id, name, profile);
 		redirectAttributes.addFlashAttribute("updateMessage", "プロフィールを更新しました");
-		
+
 		return "redirect:/user/showUser";
 	}
 

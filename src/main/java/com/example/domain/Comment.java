@@ -21,9 +21,14 @@ public class Comment {
 	 */
 	private Integer articleId;
 	/**
-	 * コメント投稿者の名前
+	 * コメント投稿ユーザーのId
 	 */
-	private String userName;
+	private Integer userId;
+
+	/**
+	 * コメント投稿ユーザー
+	 */
+	private User user;
 
 	public Integer getId() {
 		return id;
@@ -49,17 +54,26 @@ public class Comment {
 		this.articleId = articleId;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
 	@Override
 	public String toString() {
-		return "Comment [id=" + id + ", content=" + content + ", articleId=" + articleId + ", userName=" + userName
-				+ "]";
+		return "Comment [id=" + id + ", content=" + content + ", articleId=" + articleId + ", userId=" + userId
+				+ ", user=" + user + "]";
 	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 }

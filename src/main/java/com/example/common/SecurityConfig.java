@@ -13,6 +13,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+/**
+ * ログイン認証を管理するクラス.
+ * 
+ * @author hayato.saishu
+ *
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -34,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.formLogin()
 			.loginPage("/login/toLogin")
 			.loginProcessingUrl("/login")
-			.defaultSuccessUrl("/user/showUser", true)
+			.defaultSuccessUrl("/article/show", true)
 			.failureUrl("/login/toLogin?error=true")
 			.usernameParameter("mailAddress")
 			.passwordParameter("password");

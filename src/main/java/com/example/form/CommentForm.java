@@ -1,19 +1,22 @@
 package com.example.form;
 
+import javax.validation.constraints.NotBlank;
+
 public class CommentForm {
 
 	/**
 	 * コメント内容
 	 */
+	@NotBlank
 	private String content;
 	/**
 	 * スレッドID
 	 */
 	private Integer articleId;
 	/**
-	 * コメントユーザーの名前
+	 * コメントユーザーのId
 	 */
-	private String userName;
+	private Integer userId;
 
 	public String getContent() {
 		return content;
@@ -31,16 +34,16 @@ public class CommentForm {
 		this.articleId = articleId;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
 	@Override
 	public String toString() {
-		return "CommentForm [content=" + content + ", articleId=" + articleId + ", userName=" + userName + "]";
+		return "CommentForm [content=" + content + ", articleId=" + articleId + ", userId=" + userId + "]";
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 }
