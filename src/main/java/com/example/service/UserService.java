@@ -62,17 +62,30 @@ public class UserService {
 	 * @param name 名前
 	 * @param profile プロフィール
 	 */
-	public void updateProfile(Integer id, String name, String profile) {
+	public void updateProfile(Integer id, String name, String profile, String image) {
 		User user = userRepository.load(id);
 		user.setName(name);
 		if (profile.length() != 0) {
 			user.setProfile(profile);
 		}
+		if(image.length() != 0) {
+			user.setImage(image);
+		}
 
 		userRepository.updateProfile(user);
 	}
 	
+	/**
+	 * ユーザー情報を取得する.
+	 * 
+	 * @param id ID
+	 * @return ユーザー情報
+	 */
 	public User load(Integer id) {
 		return userRepository.load(id);
+	}
+	
+	public User loadUserDetail(Integer id) {
+		return userRepository.loadUserAndArticleAndComment(id);
 	}
 }

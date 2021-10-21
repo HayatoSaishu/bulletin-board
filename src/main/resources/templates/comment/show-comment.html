@@ -8,6 +8,36 @@
 <title>スレッド</title>
 </head>
 <body>
+<header class="mb-4">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<div class="container-fluid">
+				<a class="navbar-brand" th:href="@{/article/show}">トップページ</a>
+				<button class="navbar-toggler" type="button"
+					data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+					aria-controls="navbarSupportedContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse"
+					id="navbarSupportedContent">
+					<ul class="navbar-nav ms-auto mb-2 mb-lg-0"
+						sec:authorize="isAuthenticated()">
+						<li class="nav-item"><a class="nav-link" aria-current="page"
+							th:href="@{/user/showLoginUser}">ユーザーページ</a></li>
+						<li class="nav-item"><a class="nav-link" th:href="@{/logout}">ログアウト</a>
+						</li>
+					</ul>
+					<ul class="navbar-nav ms-auto mb-2 mb-lg-0"
+						sec:authorize="!isAuthenticated()">
+						<li class="nav-item"><a class="nav-link" aria-current="page"
+							th:href="@{/login/toLogin}">ログイン</a></li>
+						<li class="nav-item"><a class="nav-link" th:href="@{/user}">会員登録</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
 <div class="container">
 	<div class="row">
 		<div class="col-10 mx-auto">
@@ -16,14 +46,14 @@
 				<p th:text="${blankMessage}"></p>
 			</div>
 			<div th:each="comment:${commentList}">
-				投稿者
-				<a th:href="@{/user/showUser?id=} + ${comment.user.id}"><span th:text="${comment.user.name}"></span></a><br>
-				<span th:text="${comment.content}"></span>
+				<a th:href="@{/user/showUser?id=} + ${comment.user.id}"><span class="fs-5" th:text="${comment.user.name}"></span></a><br>
+				&nbsp;&nbsp;&nbsp;
+				<span class="fs-5" th:text="${comment.content}"></span>
 			</div>
 			<form th:action="@{/comment/post}" method="post" class="form-group" th:object="${commentForm}">
 				<div class="alert alert-danger text-center" th:if="${#fields.hasErrors('content')}" 
 							th:errors="*{content}"></div>
-				<textarea rows="3" cols="40" name="content" class="form-control" placeholder="投稿内容"></textarea>
+				<textarea rows="3" cols="40" name="content" th:field="*{content}" class="form-control"  placeholder="投稿内容"></textarea>
 				<input type="hidden" name="articleId" th:value="${article.id}">
 				<input type="hidden" name="userId" th:value="${loginUser.id}">
 				<div class="d-grid gap-2 col-6 mx-auto mt-3">

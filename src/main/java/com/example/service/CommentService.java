@@ -17,10 +17,10 @@ public class CommentService {
 
 	@Autowired
 	private CommentRepository commentRepository;
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	/**
 	 * コメントを投稿する.
 	 * 
@@ -29,17 +29,17 @@ public class CommentService {
 	public void postComment(Comment comment) {
 		commentRepository.insert(comment);
 	}
-	
+
 	/**
 	 * スレッドIDから投稿コメントを取得.
 	 * 
 	 * @param articleId スレッドID
 	 * @return 投稿リスト
 	 */
-	public List<Comment> seachByArticleId(Integer articleId){
+	public List<Comment> seachByArticleId(Integer articleId) {
 		return commentRepository.findByArticleId(articleId);
 	}
-	
+
 	/**
 	 * 投稿情報からユーザー情報を取得する.
 	 * 
@@ -48,5 +48,15 @@ public class CommentService {
 	 */
 	public User showUser(Integer id) {
 		return userRepository.load(id);
+	}
+
+	/**
+	 * ユーザーIDからコメントを取得する.
+	 * 
+	 * @param id ID
+	 * @return コメントリスト
+	 */
+	public List<Comment> searchByUserId(Integer id) {
+		return commentRepository.findByUserId(id);
 	}
 }

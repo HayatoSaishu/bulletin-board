@@ -1,5 +1,16 @@
 package com.example.controller;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -9,12 +20,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.domain.Article;
+import com.example.domain.Comment;
 import com.example.domain.LoginUser;
 import com.example.domain.User;
 import com.example.form.SignUpUserForm;
 import com.example.repository.UserRepository;
+import com.example.service.CommentService;
 import com.example.service.UserService;
 
 /**
@@ -32,6 +47,9 @@ public class UserController {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private CommentService commentService;
 
 	@ModelAttribute
 	public SignUpUserForm setUpSignUpUserForm() {
@@ -69,7 +87,6 @@ public class UserController {
 		return "redirect:/user/toLogin";
 	}
 
-	@RequestMapping("/showLoginUser")
 	/**
 	 * ログインユーザー情報ページを表示する.
 	 * 
@@ -77,11 +94,40 @@ public class UserController {
 	 * @param loginUser ログインユーザー情報
 	 * @return
 	 */
+	@RequestMapping("/showLoginUser")
 	public String showLoginUser(Model model, @AuthenticationPrincipal LoginUser loginUser) {
-		User user = userRepository.load(loginUser.getUser().getId());
+		User user = userService.loadUserDetail(loginUser.getUser().getId());
+		
+		List<Article> articleList = new ArrayList<>();
+		Map<Article, Integer> map = new HashMap<>();
+		
+		for (Article article : user.getArticleList()) {
+			Integer id = article.getId();
+			for(Map.Entry<Article, Integer> entry : map.entrySet()) {
+				if(id != entry.getValue());
+				map.put(article,id);
+				articleList.add(entry.getKey());
+				System.out.println(entry.getKey() + "" + entry.getValue());
+			}
+		}
+
+//		if (user.getCommentList() == null) {
+//			model.addAttribute("blankCommentMessage", "投稿がまだありません");
+//		}
+//		if (user.getCommentList().size() == 0) {
+//			model.addAttribute("blankCommentMessage", "投稿がまだありません");
+//		}
+		if (user.getArticleList() == null) {
+			model.addAttribute("blankArticleMessage", "作成したスレッドがまだありません");
+		}
+		if (user.getArticleList().size() == 0) {
+			model.addAttribute("blankArticleMessage", "作成したスレッドがまだありません");
+		}
 
 		model.addAttribute("user", user);
 		model.addAttribute("displayButton", "");
+		model.addAttribute("articleList", articleList);
+
 		return "user/user-detail";
 	}
 
@@ -95,11 +141,23 @@ public class UserController {
 	@RequestMapping("/showUser")
 	public String showUser(Model model, Integer id, @AuthenticationPrincipal LoginUser loginUser) {
 		User user = userRepository.load(id);
+		List<Comment> commentList = commentService.searchByUserId(id);
 
 		model.addAttribute("user", user);
 		if (user.getId() == loginUser.getUser().getId()) {
 			model.addAttribute("displayButton", "");
 		}
+
+		if (commentList == null) {
+			model.addAttribute("blankMessage", "投稿がまだありません");
+			return "user/user-detail";
+		}
+		if (commentList.size() == 0) {
+			model.addAttribute("blankMessage", "投稿がまだありません");
+			return "user/user-detail";
+		}
+
+		model.addAttribute("commentList", commentList);
 		return "user/user-detail";
 	}
 
@@ -123,13 +181,29 @@ public class UserController {
 	 * @param id      ID
 	 * @param name    名前
 	 * @param profile プロフィール
+	 * @throws IOException
 	 */
 	@RequestMapping("/update")
-	public String updateProfile(RedirectAttributes redirectAttributes, Integer id, String name, String profile) {
-		userService.updateProfile(id, name, profile);
+	public String updateProfile(RedirectAttributes redirectAttributes, Integer id, String name, String profile,
+			MultipartFile multipartFile) throws IOException {
+		String image = multipartFile.getOriginalFilename();
+		Path filePath = Paths.get("C:/env/springworkspace/bulletin-board/src/main/resources/static/image/" + image);
+		try {
+			// アップロードファイルをバイト値に変換
+			byte[] bytes = multipartFile.getBytes();
+
+			// バイト値を書き込む為のファイルを作成して指定したパスに格納
+			OutputStream stream = Files.newOutputStream(filePath);
+
+			// ファイルに書き込み
+			stream.write(bytes);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		userService.updateProfile(id, name, profile, image);
 		redirectAttributes.addFlashAttribute("updateMessage", "プロフィールを更新しました");
 
-		return "redirect:/user/showUser";
+		return "redirect:/user/showLoginUser";
 	}
 
 }

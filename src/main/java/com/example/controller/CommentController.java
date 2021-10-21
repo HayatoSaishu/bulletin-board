@@ -33,8 +33,17 @@ public class CommentController {
 		return new CommentForm();
 	}
 
+	/**
+	 * コメントを投稿する.
+	 * 
+	 * @param form フォーム
+	 * @param model　モデル
+	 * @param result　バリデーションチェック
+	 * @param loginUser　ログインユーザー
+	 * @return　スレッド詳細ページに戻る
+	 */
 	@RequestMapping("/post")
-	public String postComment(@Validated CommentForm form, Model model, BindingResult result,
+	public String postComment(Model model, @Validated CommentForm form, BindingResult result,
 			@AuthenticationPrincipal LoginUser loginUser) {
 		if (result.hasErrors()) {
 			return toComment(String.valueOf(form.getArticleId()), model, loginUser);
@@ -50,6 +59,14 @@ public class CommentController {
 		return toComment(String.valueOf(form.getArticleId()), model, loginUser);
 	}
 
+	/**
+	 * スレッド詳細ページに遷移する.
+	 * 
+	 * @param id スレッドID 
+	 * @param model モデル
+	 * @param loginUser　ログインユーザー
+	 * @return　スレッド詳細ページ
+	 */
 	@RequestMapping("/show")
 	public String toComment(String id, Model model, @AuthenticationPrincipal LoginUser loginUser) {
 		Integer articleId = Integer.parseInt(id);

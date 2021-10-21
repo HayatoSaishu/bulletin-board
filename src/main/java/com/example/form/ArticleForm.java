@@ -22,9 +22,9 @@ public class ArticleForm {
 	private String content;
 	
 	/**
-	 * スレッド作成者の名前
+	 * スレッド作成者のID
 	 */
-	private String userName;
+	private Integer userId;
 
 	public String getName() {
 		return name;
@@ -42,16 +42,19 @@ public class ArticleForm {
 		this.content = content;
 	}
 
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
 	@Override
 	public String toString() {
-		return "ArticleForm [name=" + name + ", content=" + content + ", userName=" + userName + "]";
+		return "ArticleForm [name=" + name + ", content=" + content + ", userId=" + userId + "]";
 	}
 
-	public String getUserName() {
-		return userName;
-	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+
 }

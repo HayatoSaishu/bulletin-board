@@ -73,7 +73,7 @@ public class ArticleController {
 		Article article = new Article();
 		article.setName(form.getName());
 		article.setContent(form.getContent());
-		article.setUserName(loginUser.getUser().getName());
+		article.setUserId(loginUser.getUser().getId());
 		
 		articleService.createArticle(article);
 		
@@ -91,6 +91,13 @@ public class ArticleController {
 		return "article/create-article";
 	}
 	
+	/**
+	 * スレッドを名前検索する.
+	 * 
+	 * @param name 名前
+	 * @param model　モデル
+	 * @return　スレッドリスト
+	 */
 	@RequestMapping("/search-name")
 	public String searchByNameLike(String name, Model model) {
 		List<Article> articleList = articleService.searchByNameLike(name);

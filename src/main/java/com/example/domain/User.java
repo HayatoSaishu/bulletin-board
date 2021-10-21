@@ -1,5 +1,7 @@
 package com.example.domain;
 
+import java.util.List;
+
 /**
  * ユーザー情報
  * 
@@ -25,18 +27,21 @@ public class User {
 	 */
 	private String password;
 	/**
-	 * 記事ID
-	 */
-	private Integer articleId;
-	/**
-	 * コメントID
-	 */
-	private Integer commentId;
-
-	/**
 	 * プロフィール
 	 */
 	private String profile;
+	/**
+	 * プロフィール写真のパス
+	 */
+	private String image;
+	/**
+	 * スレッドリスト
+	 */
+	private List<Article> articleList;
+	/**
+	 * コメントリスト
+	 */
+	private List<Comment> commentList;
 
 	public Integer getId() {
 		return id;
@@ -70,22 +75,6 @@ public class User {
 		this.password = password;
 	}
 
-	public Integer getArticleId() {
-		return articleId;
-	}
-
-	public void setArticleId(Integer articleId) {
-		this.articleId = articleId;
-	}
-
-	public Integer getCommentId() {
-		return commentId;
-	}
-
-	public void setCommentId(Integer commentId) {
-		this.commentId = commentId;
-	}
-
 	public String getProfile() {
 		return profile;
 	}
@@ -94,10 +83,36 @@ public class User {
 		this.profile = profile;
 	}
 
+
+	public List<Article> getArticleList() {
+		return articleList;
+	}
+
+	public void setArticleList(List<Article> articleList) {
+		this.articleList = articleList;
+	}
+
+	public List<Comment> getCommentList() {
+		return commentList;
+	}
+
+	public void setCommentList(List<Comment> commentList) {
+		this.commentList = commentList;
+	}
+
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", mailAddress=" + mailAddress + ", password=" + password
-				+ ", articleId=" + articleId + ", commentId=" + commentId + ", profile=" + profile + "]";
+				+ ", profile=" + profile + ", image=" + image + ", articleList=" + articleList + ", commentList="
+				+ commentList + "]";
 	}
-
 }
